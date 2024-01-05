@@ -4,6 +4,7 @@ import Api from "../Api/Api";
 const Marks = () => {
 	const [students, setStudents] = React.useState([]);
 	const [marksFilter, setMarksFilter] = React.useState([]);
+	const [searchTerm, setSearchTerm] = React.useState("");
 
 	const fetchStudents = async () => {
 		try {
@@ -27,7 +28,12 @@ const Marks = () => {
 					parseInt(student.marks) >= 400 &&
 					parseInt(student.marks) <= 700) ||
 				(marksFilter.includes("above700") && parseInt(student.marks) > 700);
-			return studentInRange;
+
+			const searchTermMatch =
+				student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				student.marks.includes(searchTerm);
+
+			return studentInRange && searchTermMatch;
 		});
 	};
 
@@ -41,12 +47,21 @@ const Marks = () => {
 		}
 	};
 
+	const handleSearchTermChange = (event) => {
+		setSearchTerm(event.target.value);
+	};
+
 	const filteredStudents =
 		marksFilter.length === 0 ? students : filterStudents();
 
 	return (
 		<React.Fragment>
-			<div className="d-flex align-items-center justify-content-around py-5 px-3 border border-2 border-success rounded">
+			<div className="d-flex justify-content-center">
+				<h4 className="text-danger">
+					Also Search among the data filters applied
+				</h4>
+			</div>
+			<div className="d-flex align-items-center justify-content-around py-2 px-3 border border-2 border-success rounded">
 				<label htmlFor="below400">
 					<input
 						id="below400"
@@ -80,6 +95,17 @@ const Marks = () => {
 					<span className="checkbox-replacement"></span>
 					Above 700
 				</label>
+			</div>
+			<div>
+				<label htmlFor="search">Search: </label>
+				<input
+					id="search"
+					type="text"
+					value={searchTerm}
+					onChange={handleSearchTermChange}
+					className="w-100 form-control"
+					placeholder="Filter & Search"
+				/>
 			</div>
 			<table style={{ width: "100%" }}>
 				<thead>
