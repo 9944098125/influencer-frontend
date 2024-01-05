@@ -41,7 +41,8 @@ const Marks = () => {
 		}
 	};
 
-	const filteredStudents = filterStudents();
+	const filteredStudents =
+		marksFilter.length === 0 ? students : filterStudents();
 
 	return (
 		<React.Fragment>
@@ -96,55 +97,23 @@ const Marks = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{filteredStudents.length > 0
-						? filteredStudents.map((student) => (
-								<tr
-									style={{
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "space-between",
-										padding: "10px 20px",
-									}}
-									key={student._id}>
-									<td className="d-flex justify-content-center">
-										{student._id}
-									</td>
-									<td className="d-flex justify-content-center">
-										{student.name}
-									</td>
-									<td className="d-flex justify-content-center">
-										{student.standard}
-									</td>
-									<td className="d-flex justify-content-center">
-										{student.marks}
-									</td>
-								</tr>
-						  ))
-						: students.map((student) => {
-								return (
-									<tr
-										style={{
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "space-between",
-											padding: "10px 20px",
-										}}
-										key={student._id}>
-										<td className="d-flex justify-content-center">
-											{student._id}
-										</td>
-										<td className="d-flex justify-content-center">
-											{student.name}
-										</td>
-										<td className="d-flex justify-content-center">
-											{student.standard}
-										</td>
-										<td className="d-flex justify-content-center">
-											{student.marks}
-										</td>
-									</tr>
-								);
-						  })}
+					{filteredStudents?.map((student) => (
+						<tr
+							style={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "space-between",
+								padding: "10px 20px",
+							}}
+							key={student._id}>
+							<td className="d-flex justify-content-center">{student._id}</td>
+							<td className="d-flex justify-content-center">{student.name}</td>
+							<td className="d-flex justify-content-center">
+								{student.standard}
+							</td>
+							<td className="d-flex justify-content-center">{student.marks}</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 		</React.Fragment>
